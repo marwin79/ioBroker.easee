@@ -377,6 +377,7 @@ class Easee extends utils.Adapter {
         await this.setStateAsync(charger.id + '.config.phaseMode', { val: charger_config.phaseMode, ack: true });
         await this.setStateAsync(charger.id + '.config.ledStripBrightness', { val: charger_config.ledStripBrightness, ack: true });
         await this.setStateAsync(charger.id + '.config.smartButtonEnabled', { val: charger_config.smartButtonEnabled, ack: true });
+        await this.setStateAsync(charger.id + '.config.smartCharging', { val: charger_config.smartCharging, ack: true });
         await this.setStateAsync(charger.id + '.config.wiFiSSID', { val: charger_config.wiFiSSID, ack: true });
         await this.setStateAsync(charger.id + '.config.maxChargerCurrent', { val: charger_config.maxChargerCurrent, ack: true });
 
@@ -1365,6 +1366,20 @@ class Easee extends utils.Adapter {
             },
             native: {},
         });
+
+        //smartCharging
+        await this.setObjectNotExistsAsync(charger.id + '.config.smartCharging', {
+            type: 'state',
+            common: {
+                name: 'Enable/Disable smart scharging mode',
+                type: 'boolean',
+                role: 'value',
+                read: true,
+                write: true,
+            },
+            native: {},
+        });
+        this.subscribeStates(charger.id + '.config.smartCharging');
 
         //wiFiSSID
         await this.setObjectNotExistsAsync(charger.id + '.config.wiFiSSID', {
